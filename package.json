@@ -1,0 +1,15 @@
+{
+  "name": "iptv-pro-player",
+  "version": "1.0.0",
+  "description": "IPTV Player with Node.js proxy for streaming",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["iptv", "streaming", "proxy", "player"],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
