@@ -28,8 +28,12 @@ class XtreamAPI {
     async fetchAPI(url) {
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 15000);
-            const response = await fetch(url, { signal: controller.signal });
+            const timeoutId = setTimeout(() => controller.abort(), 30000); // زيادة الوقت إلى 30 ثانية
+            const response = await fetch(url, {
+                signal: controller.signal,
+                mode: 'cors',
+                credentials: 'omit'
+            });
             clearTimeout(timeoutId);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             return await response.json();
