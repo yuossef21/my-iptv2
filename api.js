@@ -5,8 +5,7 @@ class XtreamAPI {
 
     buildUrl(action, extraParams = '') {
         const targetUrl = `${this.session.url}/player_api.php?username=${this.session.username}&password=${this.session.password}&action=${action}${extraParams}`;
-        // استخدام corsproxy.io لحل Mixed Content
-        return `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+        return targetUrl;
     }
 
     // رابط مباشر بدون بروكسي للستريم (أسرع وأكثر استقراراً)
@@ -23,7 +22,7 @@ class XtreamAPI {
     // رابط بروكسي للستريم (للحالات التي تحتاج CORS bypass)
     getProxiedStreamUrl(type, streamId, extension = 'm3u8') {
         const directUrl = this.getStreamUrl(type, streamId, extension);
-        return `https://corsproxy.io/?${encodeURIComponent(directUrl)}`;
+        return directUrl;
     }
 
     async fetchAPI(url) {
@@ -42,8 +41,7 @@ class XtreamAPI {
 
     async authenticate(url, user, pass) {
         const targetUrl = `${url}/player_api.php?username=${user}&password=${pass}`;
-        // استخدام corsproxy.io لحل Mixed Content
-        return await this.fetchAPI(`https://corsproxy.io/?${encodeURIComponent(targetUrl)}`);
+        return await this.fetchAPI(targetUrl);
     }
 
     async getCategories(type) {
