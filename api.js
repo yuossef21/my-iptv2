@@ -4,29 +4,26 @@ class XtreamAPI {
     }
 
     buildUrl(action, extraParams = '') {
-        // تحويل HTTP إلى HTTPS تلقائياً
-        const serverUrl = this.session.url.replace('http://', 'https://');
-        const targetUrl = `${serverUrl}/player_api.php?username=${this.session.username}&password=${this.session.password}&action=${action}${extraParams}`;
-        return targetUrl;
+        const targetUrl = `${this.session.url}/player_api.php?username=${this.session.username}&password=${this.session.password}&action=${action}${extraParams}`;
+        // استخدام corsproxy.io لحل Mixed Content
+        return `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
     }
 
     // رابط مباشر بدون بروكسي للستريم (أسرع وأكثر استقراراً)
     getStreamUrl(type, streamId, extension = 'm3u8') {
-        // تحويل HTTP إلى HTTPS تلقائياً
-        const serverUrl = this.session.url.replace('http://', 'https://');
         if (type === 'live') {
-            return `${serverUrl}/live/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
+            return `${this.session.url}/live/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
         } else if (type === 'series') {
-            return `${serverUrl}/series/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
+            return `${this.session.url}/series/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
         } else {
-            return `${serverUrl}/movie/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
+            return `${this.session.url}/movie/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
         }
     }
 
     // رابط بروكسي للستريم (للحالات التي تحتاج CORS bypass)
     getProxiedStreamUrl(type, streamId, extension = 'm3u8') {
         const directUrl = this.getStreamUrl(type, streamId, extension);
-        return directUrl;
+        return `https://corsproxy.io/?${encodeURIComponent(directUrl)}`;
     }
 
     async fetchAPI(url) {
@@ -44,10 +41,9 @@ class XtreamAPI {
     }
 
     async authenticate(url, user, pass) {
-        // تحويل HTTP إلى HTTPS تلقائياً
-        const serverUrl = url.replace('http://', 'https://');
-        const targetUrl = `${serverUrl}/player_api.php?username=${user}&password=${pass}`;
-        return await this.fetchAPI(targetUrl);
+        const targetUrl = `${url}/player_api.php?username=${user}&password=${pass}`;
+        // استخدام corsproxy.io لحل Mixed Content
+        return await this.fetchAPI(`https://corsproxy.io/?${encodeURIComponent(targetUrl)}`);
     }
 
     async getCategories(type) {

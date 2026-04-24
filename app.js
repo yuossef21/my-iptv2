@@ -285,7 +285,8 @@ document.getElementById('close-modal-btn').addEventListener('click', () => dom.s
 function openPlayer(streamId, title, extension, forcedType = null) {
     dom.playerTitle.textContent = title;
     const type = forcedType || currentType;
-    currentStreamUrl = api.getStreamUrl(type, streamId, extension);
+    // استخدام الـ proxy للستريمات لحل Mixed Content
+    currentStreamUrl = api.getProxiedStreamUrl(type, streamId, extension);
     window._currentPlayerInfo = { streamId, title, extension, type };
     showScreen(dom.playerScreen);
     triggerPlayer();
