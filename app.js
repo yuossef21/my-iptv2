@@ -409,7 +409,7 @@ function rebuildAndPlay(primaryUrl, fallbackUrl) {
 
 function fallToProxy(v, url) {
     console.log('جرب عبر البروكسي...');
-    v.src = `proxy.php?url=${encodeURIComponent(url)}`;
+    v.src = `https://iptv-proxy.yuossefmohammed575.workers.dev/proxy?url=${encodeURIComponent(url)}`;
     v.load(); safePlay(v);
 }
 
@@ -439,7 +439,7 @@ function playHEVCFallback(video, url) {
     const mp4 = url.replace(/\.m3u8(\?.*)?$/, '.mp4');
     video.src = mp4; video.preload = 'auto';
     video.addEventListener('error', () => {
-        video.src = `proxy.php?url=${encodeURIComponent(url)}`;
+        video.src = `https://iptv-proxy.yuossefmohammed575.workers.dev/proxy?url=${encodeURIComponent(url)}`;
         safePlay(video);
     }, { once: true });
     safePlay(video);
@@ -474,7 +474,7 @@ function playDirectVideo(video, url) {
     video.src = url; video.preload = 'auto';
     video.addEventListener('loadedmetadata', () => console.log(`VOD ${video.videoWidth}×${video.videoHeight}`), { once: true });
     video.addEventListener('error', () => {
-        if (!video.src.includes('proxy.php')) { video.src = `proxy.php?url=${encodeURIComponent(url)}`; safePlay(video); }
+        if (!video.src.includes('iptv-proxy.yuossefmohammed575.workers.dev')) { video.src = `https://iptv-proxy.yuossefmohammed575.workers.dev/proxy?url=${encodeURIComponent(url)}`; safePlay(video); }
     }, { once: true });
     safePlay(video);
 }
