@@ -15,10 +15,19 @@ export default {
       });
     }
 
-    // Get target URL from query parameter
+    // Get target URL from query parameter (support both /proxy and root)
     const targetUrl = url.searchParams.get('url');
     if (!targetUrl) {
-      return new Response('Missing url parameter', { status: 400 });
+      return new Response(JSON.stringify({
+        error: 'Missing url parameter',
+        usage: 'Add ?url=YOUR_STREAM_URL to the request'
+      }), {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
+      });
     }
 
     try {
