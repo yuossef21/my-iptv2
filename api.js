@@ -4,18 +4,22 @@ class XtreamAPI {
     }
 
     buildUrl(action, extraParams = '') {
-        const targetUrl = `${this.session.url}/player_api.php?username=${this.session.username}&password=${this.session.password}&action=${action}${extraParams}`;
+        // تحويل HTTP إلى HTTPS تلقائياً
+        const serverUrl = this.session.url.replace('http://', 'https://');
+        const targetUrl = `${serverUrl}/player_api.php?username=${this.session.username}&password=${this.session.password}&action=${action}${extraParams}`;
         return targetUrl;
     }
 
     // رابط مباشر بدون بروكسي للستريم (أسرع وأكثر استقراراً)
     getStreamUrl(type, streamId, extension = 'm3u8') {
+        // تحويل HTTP إلى HTTPS تلقائياً
+        const serverUrl = this.session.url.replace('http://', 'https://');
         if (type === 'live') {
-            return `${this.session.url}/live/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
+            return `${serverUrl}/live/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
         } else if (type === 'series') {
-            return `${this.session.url}/series/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
+            return `${serverUrl}/series/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
         } else {
-            return `${this.session.url}/movie/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
+            return `${serverUrl}/movie/${this.session.username}/${this.session.password}/${streamId}.${extension}`;
         }
     }
 
@@ -40,7 +44,9 @@ class XtreamAPI {
     }
 
     async authenticate(url, user, pass) {
-        const targetUrl = `${url}/player_api.php?username=${user}&password=${pass}`;
+        // تحويل HTTP إلى HTTPS تلقائياً
+        const serverUrl = url.replace('http://', 'https://');
+        const targetUrl = `${serverUrl}/player_api.php?username=${user}&password=${pass}`;
         return await this.fetchAPI(targetUrl);
     }
 
