@@ -5,7 +5,7 @@ class XtreamAPI {
 
     buildUrl(action, extraParams = '') {
         const targetUrl = `${this.session.url}/player_api.php?username=${this.session.username}&password=${this.session.password}&action=${action}${extraParams}`;
-        return `proxy.php?url=${encodeURIComponent(targetUrl)}`;
+        return `https://iptv-proxy.yuossefmohammed575.workers.dev/proxy?url=${encodeURIComponent(targetUrl)}`;
     }
 
     // رابط مباشر بدون بروكسي للستريم (أسرع وأكثر استقراراً)
@@ -22,7 +22,7 @@ class XtreamAPI {
     // رابط بروكسي للستريم (للحالات التي تحتاج CORS bypass)
     getProxiedStreamUrl(type, streamId, extension = 'm3u8') {
         const directUrl = this.getStreamUrl(type, streamId, extension);
-        return `proxy.php?url=${encodeURIComponent(directUrl)}`;
+        return `https://iptv-proxy.yuossefmohammed575.workers.dev/proxy?url=${encodeURIComponent(directUrl)}`;
     }
 
     async fetchAPI(url) {
@@ -41,7 +41,7 @@ class XtreamAPI {
 
     async authenticate(url, user, pass) {
         const targetUrl = `${url}/player_api.php?username=${user}&password=${pass}`;
-        return await this.fetchAPI(`proxy.php?url=${encodeURIComponent(targetUrl)}`);
+        return await this.fetchAPI(`https://iptv-proxy.yuossefmohammed575.workers.dev/proxy?url=${encodeURIComponent(targetUrl)}`);
     }
 
     async getCategories(type) {
